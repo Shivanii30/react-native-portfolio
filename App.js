@@ -2,19 +2,22 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Linking, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons'; // For icons
-import Icon from 'react-native-vector-icons/Octicons'; 
+import { createStackNavigator } from '@react-navigation/stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Octicons';
+import EducationDetails from './EducationDetails'; 
+import Card from './Card';
+import CertificationsScreen from './CertificationsScreen'; 
 
 // Home Screen
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const projects = [
-    { name: 'Education', icon : 'mortar-board',color:'darkseagreen' },
-    { name: 'Certifications',icon:'file-badge',color:'gold' },
-    { name: 'Tech Stack', icon: 'code-square'},
-    { name: 'Problem Solving', icon: 'check-circle-fill', color:'green', url: 'https://github.com/yourusername/project4' },
-    { name: 'Blogs',icon:'globe', color:'orange', url: 'https://github.com/yourusername/project5' },
+    { name: 'Education', icon: 'mortar-board', color: 'darkseagreen', screen: 'EducationDetails' },
+    { name: 'Certifications', icon: 'file-badge', color: 'gold', screen:'CertificationsScreen' },
+    { name: 'Tech Stack', icon: 'code-square' },
+    { name: 'Problem Solving', icon: 'check-circle-fill', color: 'green', url: 'https://github.com/yourusername/project4' },
+    { name: 'Blogs', icon: 'globe', color: 'orange', url: 'https://github.com/yourusername/project5' },
   ];
-
 
   const handleLinkPress = (url) => {
     Linking.openURL(url).catch(err => console.error("Failed to open URL:", err));
@@ -22,12 +25,20 @@ const HomeScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-
       <Text style={styles.sectionTitle}>My Work</Text>
       {projects.map((project, index) => (
-        <TouchableOpacity key={index} onPress={() => handleLinkPress(project.url)}>
+        <TouchableOpacity
+          key={index}
+          onPress={() => {
+            if (project.screen) {
+              navigation.navigate(project.screen);
+            } else if (project.url) {
+              handleLinkPress(project.url);
+            }
+          }}
+        >
           <View style={styles.item}>
-          <Icon name={project.icon} size={22} color={project.color || '#58a6ff'} style={styles.icon}/>)}
+            <Icon name={project.icon} size={22} color={project.color || '#58a6ff'} style={styles.icon} />
             <Text style={styles.itemText}>{project.name}</Text>
           </View>
         </TouchableOpacity>
@@ -78,6 +89,19 @@ const ProfileScreen = () => {
   );
 };
 
+// Stack Navigator for Home and EducationDetails
+const Stack = createStackNavigator();
+
+const HomeStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="EducationDetails" component={EducationDetails} />
+      <Stack.Screen name = "CertificationsScreen" component ={CertificationsScreen}/>
+    </Stack.Navigator>
+  );
+};
+
 // Tab Navigator
 const Tab = createBottomTabNavigator();
 
@@ -101,12 +125,12 @@ const App = () => {
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#58a6ff', // GitHub link color
-          tabBarInactiveTintColor: '#c9d1d9', // GitHub light text color
-          tabBarStyle: { backgroundColor: '#0d1117' }, // GitHub dark theme background
+          tabBarActiveTintColor: '#58a6ff',
+          tabBarInactiveTintColor: '#c9d1d9',
+          tabBarStyle: { backgroundColor: '#0d1117' },
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Home" component={HomeStack} />
         <Tab.Screen name="Projects" component={ProjectsScreen} />
         <Tab.Screen name="Resume" component={ResumeScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
@@ -119,20 +143,18 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#0d1117', // GitHub dark theme background
+    backgroundColor: '#0d1117',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#c9d1d9', // GitHub light text color
+    color: '#c9d1d9',
     marginBottom: 20,
     textAlign: 'center',
   },
-  icon:{
+  icon: {
     marginRight: 10,
-    //color: 'green',
   },
-
   sectionTitle: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -144,13 +166,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#161b22', // GitHub dark theme card background
+    backgroundColor: '#161b22',
     borderRadius: 8,
     marginBottom: 10,
   },
   itemText: {
     fontSize: 20,
-    color: 'white', // GitHub link color
+    color: 'white',
   },
   screen: {
     flex: 1,
