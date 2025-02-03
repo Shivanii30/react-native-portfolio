@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Linking, TouchableOpacity } from 'react-native';
+import React ,{useState} from 'react';
+import { StyleSheet, Text, View, ScrollView, Linking, TouchableOpacity, Modal, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,19 +8,24 @@ import Icon from 'react-native-vector-icons/Octicons';
 import EducationDetails from './EducationDetails'; 
 import Card from './Card';
 import CertificationsScreen from './CertificationsScreen'; 
+import ProblemSolvingPopup from './ProblemSolvingPop';
+import WebViewScreen from './WebViewScreen';
 
 // Home Screen
 const HomeScreen = ({ navigation }) => {
+    const [modalVisible, setModalVisible] = useState(false);
+
   const projects = [
     { name: 'Education', icon: 'mortar-board', color: 'darkseagreen', screen: 'EducationDetails' },
     { name: 'Certifications', icon: 'file-badge', color: 'gold', screen:'CertificationsScreen' },
     { name: 'Tech Stack', icon: 'code-square' },
-    { name: 'Problem Solving', icon: 'check-circle-fill', color: 'green', url: 'https://github.com/yourusername/project4' },
+    { name: 'Problem Solving', icon: 'check-circle-fill', color: 'green', action: () => setModalVisible(true)},
     { name: 'Blogs', icon: 'globe', color: 'orange', url: 'https://github.com/yourusername/project5' },
   ];
 
   const handleLinkPress = (url) => {
-    Linking.openURL(url).catch(err => console.error("Failed to open URL:", err));
+
+    navigation.navigate('WebViewScreen', { url });
   };
 
   return (
@@ -32,8 +37,12 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => {
             if (project.screen) {
               navigation.navigate(project.screen);
-            } else if (project.url) {
+            }
+            else if (project.url) {
               handleLinkPress(project.url);
+            }
+            else if(project.action){
+              project.action();
             }
           }}
         >
@@ -43,6 +52,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </TouchableOpacity>
       ))}
+            <ProblemSolvingPopup visible={modalVisible} onClose={() => setModalVisible(false)} />
 
       <Text style={styles.sectionTitle}>Get in Touch</Text>
       <TouchableOpacity onPress={() => handleLinkPress('mailto:youremail@example.com')}>
@@ -58,6 +68,7 @@ const HomeScreen = ({ navigation }) => {
     </ScrollView>
   );
 };
+
 
 // Projects Screen
 const ProjectsScreen = () => {
@@ -98,6 +109,7 @@ const HomeStack = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="EducationDetails" component={EducationDetails} />
       <Stack.Screen name = "CertificationsScreen" component ={CertificationsScreen}/>
+      <Stack.Screen name="WebViewScreen" component={WebViewScreen}/>
     </Stack.Navigator>
   );
 };
