@@ -3,24 +3,18 @@ import { StyleSheet, Text, View, ScrollView, Linking, TouchableOpacity } from 'r
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // For icons
+import Icon from 'react-native-vector-icons/Octicons'; 
 
 // Home Screen
 const HomeScreen = () => {
   const projects = [
-    { name: 'Project 1', url: 'https://github.com/yourusername/project1' },
-    { name: 'Project 2', url: 'https://github.com/yourusername/project2' },
-    { name: 'Project 3', url: 'https://github.com/yourusername/project3' },
-    { name: 'Project 4', url: 'https://github.com/yourusername/project4' },
-    { name: 'Project 5', url: 'https://github.com/yourusername/project5' },
-    { name: 'Project 6', url: 'https://github.com/yourusername/project6' },
+    { name: 'Education', icon : 'mortar-board',color:'darkseagreen' },
+    { name: 'Certifications',icon:'file-badge',color:'gold' },
+    { name: 'Tech Stack', icon: 'code-square'},
+    { name: 'Problem Solving', icon: 'check-circle-fill', color:'green', url: 'https://github.com/yourusername/project4' },
+    { name: 'Blogs',icon:'globe', color:'orange', url: 'https://github.com/yourusername/project5' },
   ];
 
-  const certifications = [
-    { name: 'Certification 1', url: 'https://example.com/cert1' },
-    { name: 'Certification 2', url: 'https://example.com/cert2' },
-    { name: 'Certification 3', url: 'https://example.com/cert3' },
-    { name: 'Certification 4', url: 'https://example.com/cert4' },
-  ];
 
   const handleLinkPress = (url) => {
     Linking.openURL(url).catch(err => console.error("Failed to open URL:", err));
@@ -28,22 +22,13 @@ const HomeScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>My GitHub Portfolio</Text>
 
-      <Text style={styles.sectionTitle}>Projects</Text>
+      <Text style={styles.sectionTitle}>My Work</Text>
       {projects.map((project, index) => (
         <TouchableOpacity key={index} onPress={() => handleLinkPress(project.url)}>
           <View style={styles.item}>
+          <Icon name={project.icon} size={22} color={project.color || '#58a6ff'} style={styles.icon}/>)}
             <Text style={styles.itemText}>{project.name}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
-
-      <Text style={styles.sectionTitle}>Certifications</Text>
-      {certifications.map((cert, index) => (
-        <TouchableOpacity key={index} onPress={() => handleLinkPress(cert.url)}>
-          <View style={styles.item}>
-            <Text style={styles.itemText}>{cert.name}</Text>
           </View>
         </TouchableOpacity>
       ))}
@@ -143,6 +128,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
+  icon:{
+    marginRight: 10,
+    //color: 'green',
+  },
+
   sectionTitle: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -151,14 +141,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   item: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 15,
     backgroundColor: '#161b22', // GitHub dark theme card background
     borderRadius: 8,
     marginBottom: 10,
   },
   itemText: {
-    fontSize: 16,
-    color: '#58a6ff', // GitHub link color
+    fontSize: 20,
+    color: 'white', // GitHub link color
   },
   screen: {
     flex: 1,
