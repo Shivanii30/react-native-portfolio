@@ -5,7 +5,7 @@ const Card = ({ title, description, imageUrl, onVerify }) => {
   return (
     <View style={styles.card}>
       <View style={styles.cardDetails}>
-        {imageUrl && <Image source={{ uri: imageUrl }} style={styles.image} />}
+        {imageUrl && <Image source={imageUrl} style={styles.image} />}
         <Text style={styles.textTitle}>{title}</Text>
         <Text style={styles.textBody}>{description}</Text>
       </View>
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 290,
+    height: 254,
     borderRadius: 10,
     marginBottom: 10,
   },
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -20,
     left: '20%',
-    opacity: 0,
+    opacity: 1, // Make button visible
     alignItems: 'center',
     justifyContent: 'center',
   },
