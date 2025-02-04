@@ -1,5 +1,5 @@
 import React ,{useState} from 'react';
-import { StyleSheet, Text, View, ScrollView, Linking, TouchableOpacity, Modal, Button } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Linking, TouchableOpacity, Modal, Button, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -7,9 +7,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Octicons';
 import EducationDetails from './EducationDetails'; 
 import Card from './Card';
+import GetInTouchPR from './GetInTouchPR';
 import CertificationsScreen from './CertificationsScreen'; 
 import ProblemSolvingPopup from './ProblemSolvingPop';
 import WebViewScreen from './WebViewScreen';
+import BlogsScreen from './BlogsScreen';
+import IssueTracker from './IssueTracker';
+import PolaroidPhoto from './PolaroidPhoto';
+import ResumeCard from './ResumeCard';
+import ProjectCard from './Projects-Card'
 
 // Home Screen
 const HomeScreen = ({ navigation }) => {
@@ -18,9 +24,9 @@ const HomeScreen = ({ navigation }) => {
   const projects = [
     { name: 'Education', icon: 'mortar-board', color: 'darkseagreen', screen: 'EducationDetails' },
     { name: 'Certifications', icon: 'file-badge', color: 'gold', screen:'CertificationsScreen' },
-    { name: 'Tech Stack', icon: 'code-square' },
+    { name: 'Tech Stack', icon: 'code-square', screen:'IssueTracker' },
     { name: 'Problem Solving', icon: 'check-circle-fill', color: 'green', action: () => setModalVisible(true)},
-    { name: 'Blogs', icon: 'globe', color: 'orange', url: 'https://github.com/yourusername/project5' },
+    { name: 'Blogs', icon: 'globe', color: 'orange', screen: 'BlogsScreen'},
   ];
 
   const handleLinkPress = (url) => {
@@ -28,9 +34,13 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate('WebViewScreen', { url });
   };
 
+  const handlePRSubmit = (pr) => {
+    Alert.alert('Pull Request Submitted!', JSON.stringify(pr, null, 2));
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.sectionTitle}>My Work</Text>
+      <Text style={styles.sectionTitle}>Know Me</Text>
       {projects.map((project, index) => (
         <TouchableOpacity
           key={index}
@@ -54,17 +64,13 @@ const HomeScreen = ({ navigation }) => {
       ))}
             <ProblemSolvingPopup visible={modalVisible} onClose={() => setModalVisible(false)} />
 
-      <Text style={styles.sectionTitle}>Get in Touch</Text>
-      <TouchableOpacity onPress={() => handleLinkPress('mailto:youremail@example.com')}>
-        <View style={styles.item}>
-          <Text style={styles.itemText}>Email Me</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleLinkPress('https://linkedin.com/in/yourprofile')}>
-        <View style={styles.item}>
-          <Text style={styles.itemText}>LinkedIn</Text>
-        </View>
-      </TouchableOpacity>
+             <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
+      <GetInTouchPR onSubmit={handlePRSubmit} />
+    </View> 
+
+
+
+
     </ScrollView>
   );
 };
@@ -72,11 +78,45 @@ const HomeScreen = ({ navigation }) => {
 
 // Projects Screen
 const ProjectsScreen = () => {
+   const repositories = [
+    {
+      title: 'Brightbox',
+      description: 'Generation of Rooftop Solar Mapping',
+      repoUrl: 'https://github.com/Shivanii30/brightbox-solar-energy',
+    },
+    {
+      title: 'Telegram Contract Bot',
+      description: 'Designed to facilitate the reading and analysis of PDF documents and the comparison of contracts, all within the Telegram messaging platform.',
+      repoUrl: 'https://github.com/Shivanii30/Telegram-Contract-Bot.git',
+    },
+    {
+      title: 'Sort Metrics',
+      description: 'Evaluate the performance of different sorting algorithms',
+      repoUrl:'https://github.com/Shivanii30/sort-metrics.git'
+    },
+    {
+      title:'Social Media Dashboard',
+      description:'Analyze current trends',
+      repoUrl:'https://github.com/Shivanii30/ISA-Project-social-media-trends.git'
+    },
+    {
+      title:'Gesture Controlled Whiteboard',
+      description:'Allow user for air drawing',
+      repoUrl:'https://github.com/Shivanii30/Whiteboard-PPT-SignLang.git'
+    }
+  ];
+
   return (
-    <View style={styles.screen}>
-      <Text style={styles.screenTitle}>Projects</Text>
-      <Text>This is the Projects screen.</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      {repositories.map((repo, index) => (
+        <ProjectCard
+          key={index}
+          title={repo.title}
+          description={repo.description}
+          repoUrl={repo.repoUrl}
+        />
+      ))}
+    </ScrollView>
   );
 };
 
@@ -84,8 +124,9 @@ const ProjectsScreen = () => {
 const ResumeScreen = () => {
   return (
     <View style={styles.screen}>
-      <Text style={styles.screenTitle}>Resume</Text>
-      <Text>This is the Resume screen.</Text>
+      <Text style={styles.screenTitle}></Text>
+      <Text>Click below to download my resume:</Text>
+      <ResumeCard />
     </View>
   );
 };
@@ -94,9 +135,12 @@ const ResumeScreen = () => {
 const ProfileScreen = () => {
   return (
     <View style={styles.screen}>
-      <Text style={styles.screenTitle}>Profile</Text>
-      <Text>This is the Profile screen.</Text>
+      <Text style={styles.screenTitle}></Text>
+
+    <PolaroidPhoto imageSource={require('./assets/trip-pic.jpg')} 
+        caption="Escape() != Reality" />
     </View>
+    
   );
 };
 
@@ -110,6 +154,8 @@ const HomeStack = () => {
       <Stack.Screen name="EducationDetails" component={EducationDetails} />
       <Stack.Screen name = "CertificationsScreen" component ={CertificationsScreen}/>
       <Stack.Screen name="WebViewScreen" component={WebViewScreen}/>
+      <Stack.Screen name = "BlogsScreen" component={BlogsScreen}/> 
+      <Stack.Screen name="IssueTracker" component ={IssueTracker}/>
     </Stack.Navigator>
   );
 };
@@ -158,7 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0d1117',
   },
   title: {
-    fontSize: 28,
+    fontSize: 110,
     fontWeight: 'bold',
     color: '#c9d1d9',
     marginBottom: 20,
