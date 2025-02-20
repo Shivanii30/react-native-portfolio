@@ -24,13 +24,66 @@ const issues = [
     ],
   },
   {
-    id: 3,
-    title: 'TypeScript',
+    id: 4,
+    title: 'Express.js',
+    status: 'closed', // mastered skill
+    comments: [
+      'Created multiple APIs with Express.',
+      'Integrated authentication with JWT.',
+    ],
+  },
+  {
+    id: 5,
+    title: 'OpenCV',
     status: 'open', // learning in progress
     comments: [
-      'Started learning TypeScript basics.',
-      'Migrating a JavaScript project to TypeScript.',
-      'Exploring advanced TypeScript features.',
+      'Learning image processing techniques.',
+      'Exploring real-time object detection.',
+    ],
+  },
+  {
+    id: 6,
+    title: 'REST API',
+    status: 'closed', // mastered skill
+    comments: [
+      'Built and deployed RESTful services.',
+      'Optimized API responses for performance.',
+    ],
+  },
+  {
+    id: 7,
+    title: 'Django',
+    status: 'open', // learning in progress
+    comments: [
+      'Learning Django ORM.',
+      'Exploring Django Rest Framework.',
+    ],
+  },
+  {
+    id: 8,
+    title: 'Python Streamlit',
+    status: 'open', // learning in progress
+    comments: [
+      'Created a simple Streamlit app.',
+      'Exploring data visualization with Streamlit.',
+    ],
+  },
+  {
+    id: 9,
+    title: 'HTML & CSS',
+    status: 'closed', // mastered skill
+    comments: [
+      'Designed multiple responsive websites.',
+      'Familiar with Flexbox and Grid.',
+    ],
+  },
+  {
+    id: 10,
+    title: 'React',
+    status: 'closed', // mastered skill
+    comments: [
+      'Built dynamic web apps using React.',
+      'Experience with React Hooks and Context API.',
     ],
   },
 ];
