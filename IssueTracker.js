@@ -16,7 +16,7 @@ const issues = [
   {
     id: 2,
     title: 'Node.js',
-    status: 'open', // learning in progress
+    status: 'closed', // learning in progress
     comments: [
       'Built a REST API with Express.js.',
       'Learning about authentication with JWT.',
@@ -57,15 +57,6 @@ const issues = [
     comments: [
       'Learning Django ORM.',
       'Exploring Django Rest Framework.',
-    ],
-  },
-  {
-    id: 8,
-    title: 'Python Streamlit',
-    status: 'open', // learning in progress
-    comments: [
-      'Created a simple Streamlit app.',
-      'Exploring data visualization with Streamlit.',
     ],
   },
   {
