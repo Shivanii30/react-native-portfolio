@@ -8,25 +8,25 @@ const CertificationsScreen = () => {
     {
       title: 'NPTEL',
       description: 'Certified by XYZ Academy',
-      imageUrl : 'https://drive.google.com/uc?export=view&id=1wZSauyLglrC2yzQv8yssOMmiReZdTxwO',
-      verifyUrl: 'https://drive.google.com/file/d/1wZSauyLglrC2yzQv8yssOMmiReZdTxwO/view?usp=sharing',
+      imageUrl : require('./assets/ndia.png'),
     },
     {
       title: 'Meta',
-      description: 'Certified by ABC Institute',
-      url : 'https://drive.google.com/file/d/1wZSauyLglrC2yzQv8yssOMmiReZdTxwO/view?usp=sharing',
+      description: '',
+      imageUrl : require('./assets/meta.png'), 
       verifyUrl: 'https://example.com/verify/javascript',
     },
-     {
-      title: 'DL',
-      description: 'Certified by ABC Institute',
-      imageUrl: 'https://drive.google.com/uc?export=view&id=1rDn2vGyKVe9ZG_nXPCBeLR8EziK_Fwe8',
-      verifyUrl: 'https://example.com/verify/javascript',
-    },
+     
      {
       title: 'LLM',
+      description: '',
+      imageUrl: require('./assets/pds.jpg'),
+      verifyUrl: 'https://example.com/verify/javascript',
+    },
+    {
+      title: 'DL',
       description: 'Certified by ABC Institute',
-      imageUrl: 'https://example.com/javascript-certificate.jpg',
+      imageUrl: require('./assets/genai.png'),
       verifyUrl: 'https://example.com/verify/javascript',
     },
 
